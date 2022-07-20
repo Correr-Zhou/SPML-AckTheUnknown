@@ -1,0 +1,7 @@
+.vscode/
+__pycache__/
+backup/
+*.npy
+*.pyc
+*.out
+*.json
