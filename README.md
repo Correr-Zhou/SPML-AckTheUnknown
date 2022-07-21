@@ -1,8 +1,8 @@
 # Acknowledging the Unknown for Multi-label Learning with Single Positive Labels
 
-## To-do Lists
-- [ ] Polish `README.md`
-- [ ] Further clean our code
+## To-do List
+- [ ] Polish `README.md`.
+- [ ] Further clean our code.
 
 
 ## Quick Start
