@@ -1,6 +1,5 @@
 # [ECCV2022] Acknowledging the Unknown for Multi-label Learning with Single Positive Labels
 
-<<<<<<< HEAD
 
 > **Authors**: Donghao Zhou, Pengfei Chen, Qiong Wang, Guangyong Chen, Pheng-Ann Heng
 >
@@ -18,8 +17,6 @@ Due to the difficulty of collecting exhaustive multi-label annotations, multi-la
 </div>
 
 
-=======
->>>>>>> 14fbf23f1d15c2016bee7a8bc0439978c0a5583a
 ## To-do List
 - [ ] Polish `README.md`.
 - [ ] Further clean our code.
