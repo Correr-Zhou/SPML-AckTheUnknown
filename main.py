@@ -34,17 +34,16 @@ def run_train_phase(model, P, Z, logger, epoch, phase):
     for batch in tqdm(Z['dataloaders'][phase], desc=desc):
         # move data to GPU:
         batch['image'] = batch['image'].to(Z['device'], non_blocking=True)
-        batch['labels_np'] = batch['label_vec_obs'].clone().numpy() # copy of labels for use in metrics
+        batch['labels_np'] = batch['label_vec_obs'].clone().numpy()  # copy of labels for use in metrics
         batch['label_vec_obs'] = batch['label_vec_obs'].to(Z['device'], non_blocking=True)
         # forward pass:
         Z['optimizer'].zero_grad()
         with torch.set_grad_enabled(True):
-            # batch['logits'], batch['label_vec_est'] = model(batch)
             batch['logits'] = model.f(batch['image'])
             batch['preds'] = torch.sigmoid(batch['logits'])
             if batch['preds'].dim() == 1:
                 batch['preds'] = torch.unsqueeze(batch['preds'], 0)
-            batch['preds_np'] = batch['preds'].clone().detach().cpu().numpy() # copy of preds for use in metrics
+            batch['preds_np'] = batch['preds'].clone().detach().cpu().numpy()  # copy of preds for use in metrics
             batch = compute_batch_loss(batch, P, Z)
         # backward pass:
         batch['loss_tensor'].backward()
@@ -73,7 +72,7 @@ def run_eval_phase(model, P, Z, logger, epoch, phase):
     for batch in tqdm(Z['dataloaders'][phase], desc=desc):
         # move data to GPU:
         batch['image'] = batch['image'].to(Z['device'], non_blocking=True)
-        batch['labels_np'] = batch['label_vec_obs'].clone().numpy() # copy of labels for use in metrics
+        batch['labels_np'] = batch['label_vec_obs'].clone().numpy()  # copy of labels for use in metrics
         batch['label_vec_obs'] = batch['label_vec_obs'].to(Z['device'], non_blocking=True)
         # forward pass:
         with torch.set_grad_enabled(False):
@@ -81,11 +80,12 @@ def run_eval_phase(model, P, Z, logger, epoch, phase):
             batch['preds'] = torch.sigmoid(batch['logits'])
             if batch['preds'].dim() == 1:
                 batch['preds'] = torch.unsqueeze(batch['preds'], 0)
-            batch['preds_np'] = batch['preds'].clone().detach().cpu().numpy() # copy of preds for use in metrics
+            batch['preds_np'] = batch['preds'].clone().detach().cpu().numpy()  # copy of preds for use in metrics
             batch['loss_np'] = -1
             batch['reg_loss_np'] = -1
         # save current batch data:
         logger.update_phase_data(batch)
+
 
 def train(model, P, Z):
 
@@ -144,6 +144,7 @@ def train(model, P, Z):
 
     return P, model, logger, best_weights_f
 
+
 def initialize_training_run(P, feature_extractor, linear_classifier):
 
     '''
@@ -156,7 +157,6 @@ def initialize_training_run(P, feature_extractor, linear_classifier):
     estimated_labels: NumPy array containing estimated training set labels to start from (for ROLE).
     '''
 
-    os.makedirs(P['save_path'], exist_ok=True)
     np.random.seed(P['seed'])
 
     Z = {}
@@ -217,6 +217,7 @@ def initialize_training_run(P, feature_extractor, linear_classifier):
 
     return P, Z, model
 
+
 def execute_training_run(P, feature_extractor, linear_classifier):
 
     '''
@@ -234,22 +235,7 @@ def execute_training_run(P, feature_extractor, linear_classifier):
 
     P, model, logger, best_weights_f = train(model, P, Z)
 
-    # FIXME
-    # print('\nSaving best weights for f to {}/best_model_state_f.pt'.format(P['save_path']))
-    # torch.save(best_weights_f, os.path.join(P['save_path'], 'best_model_state_f.pt'))
-    # print('\nSaving best weights for g to {}/best_model_state_g.pt'.format(P['save_path']))
-    # torch.save(best_weights_g, os.path.join(P['save_path'], 'best_model_state_g.pt'))
-
     final_logs = logger.get_logs()
-    # print('\nSaving session data to {}/logs.json'.format(P['save_path']))
-    # with open(os.path.join(P['save_path'], 'logs.json'), 'w') as f:
-    #     json.dump(final_logs, f)
-
-    # print('\nSaving session data to {}/params.json'.format(P['save_path']))
-    # with open(os.path.join(P['save_path'], 'params.json'), 'w') as f:
-    #     json.dump(P, f)
-
-    # print('\nReverting model to best weights.')
     model.f.load_state_dict(best_weights_f)
 
     return model.f.feature_extractor, model.f.linear_classifier, final_logs
@@ -290,24 +276,22 @@ def aysmmetric_pseudo_labeling(model, P, Z, logger, epoch, phase):
             # pseudo-label:
             if P['batch'] >= P['steps_per_epoch'] - 1:
 
-                neg_total_PL_num = neg_correct_PL_num = 0
-
-                for i in range(total_preds.shape[1]):  # class-aware
+                for i in range(total_preds.shape[1]):  # class-wise
 
                     class_preds = total_preds[:, i]
                     class_labels_obs = Z['datasets']['train'].label_matrix_obs[:, i]
                     class_labels_obs = class_labels_obs[total_idx]
 
-                    # select unlabel data
+                    # select unlabel data:
                     unlabel_class_preds = class_preds[class_labels_obs == 0]
                     unlabel_class_idx = total_idx[class_labels_obs == 0]
 
-                    # negative PL
+                    # select samples:
                     neg_PL_num = int(P['neg_proportion'] * P['unlabel_num'][i] / (P['num_epochs'] - P['warmup_epoch']))
                     sorted_idx_loc = np.argsort(unlabel_class_preds)  # ascending
-                    selected_idx_loc = sorted_idx_loc[:neg_PL_num]  # select indices of relabel data
-                    neg_PL_idx = unlabel_class_idx[selected_idx_loc]
-                    # Z['datasets']['train'].label_matrix_obs[neg_PL_idx, i] = -unlabel_class_preds[selected_idx_loc]  # assign labels
+                    selected_idx_loc = sorted_idx_loc[:neg_PL_num]  # select indices
+
+                    # assgin soft labels:
                     for loc in selected_idx_loc:
                         Z['datasets']['train'].label_matrix_obs[unlabel_class_idx[loc], i] = -unlabel_class_preds[loc]
 
@@ -323,22 +307,17 @@ if __name__ == '__main__':
 
     P = {}
 
-    # system parameters:
-    P['GPU'] = args.gpu
+    # System parameters:
     os.environ["CUDA_VISIBLE_DEVICES"] = P['GPU']
     P['pytorch_seed'] = args.pytorch_seed
     torch.manual_seed(P['pytorch_seed'])
     torch.cuda.manual_seed(P['pytorch_seed'])
 
     # Top-level parameters:
+    P['GPU'] = args.gpu
     P['dataset'] = args.dataset
     P['loss'] = args.loss
-    P['val_set_variant'] = 'clean' # clean, observed
-
-    # Paths and filenames:
-    P['experiment_name'] = 'multi_label_experiment'
-    P['load_path'] = './data'
-    P['save_path'] = './results'
+    P['val_set_variant'] = 'clean'  # clean, observed
 
     # Optimization parameters:
     if P['dataset'] == 'pascal':
@@ -371,17 +350,17 @@ if __name__ == '__main__':
         P['beta'] = 0.9
 
     # Additional parameters:
-    P['seed'] = 1200 # overall numpy seed
-    P['use_pretrained'] = True # True, False
+    P['seed'] = 1200  # overall numpy seed
+    P['use_pretrained'] = True  # True, False
     P['num_workers'] = 8
-    P['stop_metric'] = 'map' # metric used to select the best epoch
+    P['stop_metric'] = 'map'  # metric used to select the best epoch
 
     # Dataset parameters:
-    P['split_seed'] = 1200 # seed for train/val splitting
-    P['val_frac'] = 0.2 # fraction of train set to split off for val
-    P['ss_seed'] = 999 # seed for subsampling
-    P['ss_frac_train'] = 1.0 # fraction of training set to subsample
-    P['ss_frac_val'] = 1.0 # fraction of val set to subsample
+    P['split_seed'] = 1200  # seed for train/val splitting
+    P['val_frac'] = 0.2  # fraction of train set to split off for val
+    P['ss_seed'] = 999  # seed for subsampling
+    P['ss_frac_train'] = 1.0  # fraction of training set to subsample
+    P['ss_frac_val'] = 1.0  # fraction of val set to subsample
 
     # Dependent parameters:
     if P['loss'] == 'bce':
