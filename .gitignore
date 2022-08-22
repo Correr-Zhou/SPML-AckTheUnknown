@@ -1,5 +1,6 @@
 .vscode/
 __pycache__/
+results/
 backup/
 *.npy
 *.pyc
