@@ -5,8 +5,8 @@ import numpy as np
 
 
 pp = argparse.ArgumentParser(description='Format COCO metadata.')
-pp.add_argument('--load-path', type=str, default='../data/coco', help='Path to a directory containing a copy of the COCO dataset.')
-pp.add_argument('--save-path', type=str, default='../data/coco', help='Path to output directory.')
+pp.add_argument('--load-path', type=str, default='./data/coco', help='Path to a directory containing a copy of the COCO dataset.')
+pp.add_argument('--save-path', type=str, default='./data/coco', help='Path to output directory.')
 args = pp.parse_args()
 
 
@@ -46,7 +46,7 @@ for split in ['train', 'val']:
     num_categories = len(D['categories'])
     num_images = len(image_id_list)
 
-    label_matrix = np.zeros((num_images,num_categories))
+    label_matrix = np.zeros((num_images, num_categories))
     image_ids = np.zeros(num_images)
 
     for i in range(len(D['annotations'])):
@@ -63,10 +63,10 @@ for split in ['train', 'val']:
     image_ids = np.array(['{}2014/COCO_{}2014_{}.jpg'.format(split, split, str(int(x)).zfill(12)) for x in image_ids])
 
     # save labels and corresponding image ids:
-    # np.save(os.path.join(args.save_path, 'formatted_' + split + '_labels.npy'), label_matrix)
-    # np.save(os.path.join(args.save_path, 'formatted_' + split + '_images.npy'), image_ids)
+    np.save(os.path.join(args.save_path, 'formatted_' + split + '_labels.npy'), label_matrix)
+    np.save(os.path.join(args.save_path, 'formatted_' + split + '_images.npy'), image_ids)
 
 
 # save metadata:
-with open(os.path.join(args.save_path, 'formatted_metadata.json'), 'w') as f:
-    json.dump(meta, f)
+# with open(os.path.join(args.save_path, 'formatted_metadata.json'), 'w') as f:
+#     json.dump(meta, f)

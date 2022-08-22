@@ -5,8 +5,8 @@ import argparse
 
 
 pp = argparse.ArgumentParser(description='Format PASCAL 2012 metadata.')
-pp.add_argument('--load-path', type=str, default='../data/pascal', help='Path to a directory containing a copy of the PASCAL dataset.')
-pp.add_argument('--save-path', type=str, default='../data/pascal', help='Path to output directory.')
+pp.add_argument('--load-path', type=str, default='./data/pascal', help='Path to a directory containing a copy of the PASCAL dataset.')
+pp.add_argument('--save-path', type=str, default='./data/pascal', help='Path to output directory.')
 args = pp.parse_args()
 
 catName_to_catID = {

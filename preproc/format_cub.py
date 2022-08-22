@@ -6,8 +6,8 @@ import pandas as pd
 
 
 pp = argparse.ArgumentParser(description='Format CUB metadata.')
-pp.add_argument('--load-path', type=str, default='../data/cub', help='Path to a directory containing a copy of the CUB dataset.')
-pp.add_argument('--save-path', type=str, default='../data/cub', help='Path to output directory.')
+pp.add_argument('--load-path', type=str, default='./data/cub', help='Path to a directory containing a copy of the CUB dataset.')
+pp.add_argument('--save-path', type=str, default='./data/cub', help='Path to output directory.')
 args = pp.parse_args()
 
 NUM_ATTRIBUTES = 312
