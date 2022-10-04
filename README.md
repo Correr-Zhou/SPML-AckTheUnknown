@@ -5,6 +5,11 @@
 >
 > **Affiliations**: SIAT-CAS, UCAS, Tencent, Zhejiang Lab, CUHK
 
+[[Paper]](https://arxiv.org/abs/2203.16219) | 
+[[Poster]](https://github.com/Correr-Zhou/SPML-AckTheUnknown/raw/main/media/3180_poster.pdf) | 
+[[Slides]](https://correr-zhou.github.io/resources/acktheunknown_10min_slides.pdf) | 
+[[Video]](https://github.com/Correr-Zhou/SPML-AckTheUnknown/raw/main/media/3180.mp4)
+
 **Abstract**
 
 Due to the difficulty of collecting exhaustive multi-label annotations, multi-label datasets often contain partial labels. We consider an extreme of this weakly supervised learning problem, called single positive multi-label learning (SPML), where each multi-label training image has only one positive label. Traditionally, all unannotated labels are assumed as negative labels in SPML, which introduces false negative labels and causes model training to be dominated by assumed negative labels. In this work, we choose to treat all unannotated labels from an alternative perspective, i.e. acknowledging they are unknown. Hence, we propose entropy-maximization (EM) loss to attain a special gradient regime for providing proper supervision signals. Moreover, we propose asymmetric pseudo-labeling (APL), which adopts asymmetric-tolerance strategies and a self-paced procedure, to cooperate with EM loss and then provide more precise supervision. Experiments show that our method significantly improves performance and achieves state-of-the-art results on all four benchmarks.
