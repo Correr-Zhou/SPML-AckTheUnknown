@@ -1,4 +1,4 @@
-# [ECCV2022] Acknowledging the Unknown for Multi-label Learning with Single Positive Labels
+# [ECCV 2022] Acknowledging the Unknown for Multi-label Learning with Single Positive Labels
 
 
 > **Authors**: Donghao Zhou, Pengfei Chen, Qiong Wang, Guangyong Chen, Pheng-Ann Heng
@@ -20,6 +20,10 @@ Due to the difficulty of collecting exhaustive multi-label annotations, multi-la
 <div align="center">
 <img src="media/viz.jpg" title="visualization" width="80%">
 </div>
+
+## 🔥 Updates
+- 2022.11: We have collected relevant papers and code for SPML in [Awesome-Single-Positive-Multi-Label-Learning](https://github.com/Correr-Zhou/Awesome-Single-Positive-Multi-Label-Learning)!
+- 2022.11: We have provided some usage tips for adopting our method in your research. Hope them can help in your work!
 
 
 ## 🛠️ Installation
@@ -124,6 +128,10 @@ For example, to train and evaluate a model on the PASCAL VOC dataset using our E
 ```
 python main.py -d pascal -l EM_APL
 ```
+
+## 💡 Usage Tips
+1. If you want to use our EM loss in your work and evaluate its performance with metrics with a threshold (*e.g.*, F1-score, IOU-accuracy), please set the threshold to **`0.75`** rather than `0.5` for a fair comparison as we done in Appendix E of our paper.
+2. The hyperparameters of our method for different datasets have been described in [here](https://github.com/Correr-Zhou/SPML-AckTheUnknown/blob/main/main.py#L322-L350).
 
 ## 📑 Citation
 If you find some useful insights from our work or our code is helpful in your research, please consider citing our paper:
