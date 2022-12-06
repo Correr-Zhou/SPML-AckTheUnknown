@@ -307,18 +307,18 @@ if __name__ == '__main__':
 
     P = {}
 
-    # System parameters:
-    os.environ["CUDA_VISIBLE_DEVICES"] = P['GPU']
-    P['pytorch_seed'] = args.pytorch_seed
-    torch.manual_seed(P['pytorch_seed'])
-    torch.cuda.manual_seed(P['pytorch_seed'])
-
     # Top-level parameters:
     P['GPU'] = args.gpu
     P['dataset'] = args.dataset
     P['loss'] = args.loss
     P['val_set_variant'] = 'clean'  # clean, observed
 
+    # System parameters:
+    os.environ["CUDA_VISIBLE_DEVICES"] = P['GPU']
+    P['pytorch_seed'] = args.pytorch_seed
+    torch.manual_seed(P['pytorch_seed'])
+    torch.cuda.manual_seed(P['pytorch_seed'])
+    
     # Optimization parameters:
     if P['dataset'] == 'pascal':
         P['bsize'] = 8
