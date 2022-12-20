@@ -9,6 +9,4 @@ After following all of the data preparation instructions, the top level of this 
 * `formatted_val_labels.npy`
 * `formatted_val_labels_obs.npy`
 * `train2014/`
-* `train_features_imagenet_resnet50.npy`
 * `val2014/`
-* `val_features_imagenet_resnet50.npy`
