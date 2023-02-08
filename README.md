@@ -1,7 +1,7 @@
 # [ECCV 2022] Acknowledging the Unknown for Multi-label Learning with Single Positive Labels
 
 
-> **Authors**: Donghao Zhou, Pengfei Chen, Qiong Wang, Guangyong Chen, Pheng-Ann Heng
+> **Authors**: [Donghao Zhou](https://correr-zhou.github.io/), Pengfei Chen, Qiong Wang, [Guangyong Chen](https://guangyongchen.github.io/), [Pheng-Ann Heng](http://www.cse.cuhk.edu.hk/~pheng/1.html)
 >
 > **Affiliations**: SIAT-CAS, UCAS, Tencent, Zhejiang Lab, CUHK
 
