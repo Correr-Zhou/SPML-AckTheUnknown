@@ -136,13 +136,13 @@ python main.py -d pascal -l EM_APL
 ## 📑 Citation
 If you find some useful insights from our work or our code is helpful in your research, please consider citing our paper:
 ```latex
-@misc{zhou2022acknowledging,
-      title={Acknowledging the Unknown for Multi-label Learning with Single Positive Labels},
-      author={Donghao Zhou and Pengfei Chen and Qiong Wang and Guangyong Chen and Pheng-Ann Heng},
-      year={2022},
-      eprint={2203.16219},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@inproceedings{zhou2022acknowledging,
+  title={Acknowledging the unknown for multi-label learning with single positive labels},
+  author={Zhou, Donghao and Chen, Pengfei and Wang, Qiong and Chen, Guangyong and Heng, Pheng-Ann},
+  booktitle={European Conference on Computer Vision},
+  pages={423--440},
+  year={2022},
+  organization={Springer}
 }
 ```
 
